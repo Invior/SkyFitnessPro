@@ -1,18 +1,30 @@
 import { useState } from "react";
 import TrainingSelectModal from "../../Modal/TrainingSelectModal/TrainingSelectModal";
 import { CardType } from "../../../types/cards";
+import { useUser } from "../../../hooks/useUser";
+import { deleteUserCourse } from "../../../utils/api";
 
-function UserCards({ courseId, image, nameRu }: CardType) {
+function UserCards({ courseId, image, nameRu, onDelete }: CardType) {
 	const [isTrainingSelectModalOpen, setTrainingSelectModalOpen] = useState(false);
+	const { user } = useUser();
 
 	const openTrainingSelectModal = () => setTrainingSelectModalOpen(true);
 	const closeTrainingSelectModal = () => setTrainingSelectModalOpen(false);
+
+	const handleDeleteCourse = async () => {
+		try {
+			await deleteUserCourse(user.uid, courseId);
+			onDelete(courseId);
+		} catch (error) {
+			console.error("Error deleting course:", error);
+		}
+	}
 
 	return (
 		<div key={courseId} className="card w-[343px] sm:w-[360px] bg-white rounded-[30px] flex flex-col gap-6 shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)]">
 			<img className="" src={image} alt={nameRu} />
 			<div className="cardImage relative">
-				<button className="addCourse w-[32px] h-[32px] absolute top-[-330px] right-5" title="Удалить курс">
+				<button onClick={handleDeleteCourse} className="addCourse w-[32px] h-[32px] absolute top-[-330px] right-5" title="Удалить курс">
 					<svg className="w-[32px] h-[32px]">
 						<use xlinkHref="./icon/sprite.svg#icon-minus" />
 					</svg>

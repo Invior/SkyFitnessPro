@@ -51,7 +51,7 @@ function Profile() {
 						userCourses.map(async (course) => {
 							const response = await getCourseById(course.id);
 							return response;
-						})
+						}),
 					);
 					setCourseInfoArray(courseInfoArray);
 					setIsLoaded(true);
@@ -60,9 +60,22 @@ function Profile() {
 				}
 			}
 		}
-	
+
 		fetchCourseInfo();
 	}, [userCourses]);
+
+	const handleDeleteCourse = () => {
+        async function fetchUserCourses() {
+			let responseArray = [];
+			const response = await getUserCourses(user.uid);
+			for (let i = 0; i < Object.keys(response).length; i++) {
+				responseArray.push(response[Object.keys(response)[i]]);
+			}
+			setUserCourses(responseArray);
+		}
+
+		fetchUserCourses();
+    };
 
 	if (!user) {
 		return <p>Загрузка...</p>; // Пока данные пользователя загружаются
@@ -121,6 +134,7 @@ function Profile() {
 								courseId={courseItem._id}
 								image={courseItem.images.cardImage}
 								nameRu={courseItem.nameRU}
+								onDelete={handleDeleteCourse}
 							/>
 						))
 					) : (

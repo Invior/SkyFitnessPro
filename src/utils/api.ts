@@ -118,3 +118,21 @@ export async function getWorkoutsById(id: string) {
 		throw error;
 	}
 }
+
+export async function deleteUserCourse(uuid: string, courseId: string) {
+	try {
+        const response = await fetch(baseHost + `users/${uuid}/courses/${courseId}.json`, {
+            method: "DELETE",
+        });
+        if (!response.ok) {
+            if (response.status === 401) {
+                throw new Error("Невозможно удалить курс пользователю");
+            } else {
+                throw new Error(`Ошибка! Статус: ${response.status}`);
+            }
+        }
+    } catch (error) {
+        console.warn(error);
+        throw error;
+    }
+}
