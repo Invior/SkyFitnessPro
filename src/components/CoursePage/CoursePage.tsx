@@ -33,7 +33,7 @@ function CoursePage({ openModal }: CoursePageProps) {
 
 	function addCourse() {
 		if (user?.uid && course?._id) {
-			addCourseToUser(user.uid, course._id).catch((error: unknown) => {
+			addCourseToUser(user.uid, course._id).catch((error) => {
 				console.error("Ошибка при добавлении курса:", error);
 			});
 		} else {
@@ -65,6 +65,9 @@ function CoursePage({ openModal }: CoursePageProps) {
 		setBgColor(bg_color);
 	}, [id]);
 
+	const specialIds = ["fi67sm", "q02a6i"];
+	const className = specialIds.includes(id) ? "mb-10" : "md:mr-[70px]";
+
 	return (
 		<>
 			<div className="mt-[40px] sm:mt-[60px]">
@@ -82,7 +85,7 @@ function CoursePage({ openModal }: CoursePageProps) {
 									<img
 										src={course.images.cardImage}
 										alt="card-img"
-										className={id === "fi67sm" ? "mb-10" : id === "q02a6i" ? "mb-10" : "md:mr-[70px]"}
+										className={ id ? className : ""}
 									/>
 								</div>
 							</div>

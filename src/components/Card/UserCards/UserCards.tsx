@@ -20,6 +20,8 @@ function UserCards({ courseId, image, nameRu, onDelete }: UserCardsProps) {
 	const [completeArray, setCompleteArray] = useState<TrainingType[]>([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const { user } = useUser();
+	const FULL_PROGRESS = 100;
+
 
 	const openTrainingSelectModal = () => setTrainingSelectModalOpen(true);
 	const closeTrainingSelectModal = () => setTrainingSelectModalOpen(false);
@@ -143,7 +145,7 @@ function UserCards({ courseId, image, nameRu, onDelete }: UserCardsProps) {
 								</div>
 							</div>
 							<div className="items-center mt-[40px]">
-								{Math.round(visitedRatio) !== 100 ? (
+								{Math.round(visitedRatio) !== FULL_PROGRESS ? (
 									<button
 										onClick={openTrainingSelectModal}
 										className="w-[300px] h-[52px] bg-[#BCEC30] rounded-[46px] hover:bg-[#C6FF00] active:bg-[#000000] active:text-[#FFFFFF] text-lg"
