@@ -108,9 +108,7 @@ function CoursePage({ openModal }: CoursePageProps) {
 									<img
 										src={course.images.courseImage}
 										alt="card-img"
-										className={
-											id === "ab1c3f" ? "h-[120%] sm:mt-[-80px]" : id === "q02a6i" || "fi67sm" ? "" : "md:mr-[70px]"
-										}
+										className={specialClass}
 									/>
 								</div>
 							</div>
