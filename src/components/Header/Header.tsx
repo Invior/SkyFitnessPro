@@ -57,7 +57,7 @@ const Header: React.FC<HeaderProps> = ({ openModal }) => {
 					}
 				>
 					<div className="mb-[30px] flex gap-[10px] flex-col">
-						<p className="text-[18px] font-normal text-center">{name || user?.email || "Default Name"}</p>
+						<p data-testid="user-email" className="hidden sm:block text-[24px]">{name || user?.email || "Default Name"}</p>
 						<p className="text-[16px] font-normal text-center text-[#999999]">{user?.email}</p>
 					</div>
 
