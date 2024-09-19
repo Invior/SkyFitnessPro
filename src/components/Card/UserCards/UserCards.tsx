@@ -9,14 +9,15 @@ import {
 	getWorkoutsById,
 } from "../../../utils/api";
 import { useUser } from "../../../hooks/useUser";
+import { TrainingType } from "../../../types/training";
 
 type UserCardsProps = CardType & { onDelete: (courseId: string) => void };
 
 function UserCards({ courseId, image, nameRu, onDelete }: UserCardsProps) {
 	const [isTrainingSelectModalOpen, setTrainingSelectModalOpen] = useState(false);
-	const [courseData, setCourseData] = useState<any[]>([]);
-	const [workoutInfo, setWorkoutInfo] = useState<any[]>([]);
-	const [completeArray, setCompleteArray] = useState<any[]>([]);
+	const [courseData, setCourseData] = useState([]);
+	const [workoutInfo, setWorkoutInfo] = useState<TrainingType[]>([]);
+	const [completeArray, setCompleteArray] = useState<TrainingType[]>([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const { user } = useUser();
 

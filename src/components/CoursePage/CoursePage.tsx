@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { addCourseToUser, getCourse } from "../../utils/api";
 import { useEffect, useState } from "react";
 import { useUser } from "../../hooks/useUser";
+import { TrainingType } from "../../types/training";
 
 interface CoursePageProps {
 	openModal: () => void;
@@ -9,7 +10,7 @@ interface CoursePageProps {
 
 function CoursePage({ openModal }: CoursePageProps) {
 	const { id } = useParams(); // Получаем ID из URL
-	const [course, setCourse] = useState<any>(null);
+	const [course, setCourse] = useState<TrainingType>();
 	const [isLoading, setIsLoading] = useState(true);
 	const [bgColor, setBgColor] = useState("");
 	const { user } = useUser();

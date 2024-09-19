@@ -11,8 +11,8 @@ function Profile() {
 	const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 	const [isPasswordChanged, setIsPasswordChanged] = useState(false);
 	const { user, logoutUser, loginUser } = useUser();
-	const [userCourses, setUserCourses] = useState<any[]>([]);
-	const [courseInfoArray, setCourseInfoArray] = useState<any[]>([]);
+	const [userCourses, setUserCourses] = useState<TrainingType[]>([]);
+	const [courseInfoArray, setCourseInfoArray] = useState<TrainingType[]>([]);
 	const [isEditingName, setIsEditingName] = useState(false);
 	const [name, setName] = useState<string | undefined>();
 	const [isLoading, setIsLoading] = useState(true);

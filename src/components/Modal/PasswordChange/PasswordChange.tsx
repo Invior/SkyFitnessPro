@@ -8,9 +8,9 @@ interface ModalProps {
 }
 
 const PasswordChange: React.FC<ModalProps> = ({ closeModal, onSubmit }) => {
-	const [newPassword, setNewPassword] = useState<string>("");
-	const [oldPassword, setOldPassword] = useState<string>("");
-	const [message, setMessage] = useState<string>("");
+	const [newPassword, setNewPassword] = useState("");
+	const [oldPassword, setOldPassword] = useState("");
+	const [message, setMessage] = useState("");
 
 	const handleChangePassword = async (): Promise<void> => {
 		const user = auth.currentUser;

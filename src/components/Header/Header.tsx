@@ -13,7 +13,7 @@ const Header: React.FC<HeaderProps> = ({ openModal }) => {
 	const [modalVisible, setModalVisible] = useState(false);
 	const modalRef = useRef<HTMLDivElement>(null);
 	const { user, logoutUser } = useUser();
-	const [name, setName] = useState<string>(user?.displayName || "");
+	const [name, setName] = useState(user?.displayName || "");
 	const navigate = useNavigate();
 
 	const toggleModal = () => {

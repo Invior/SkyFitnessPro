@@ -46,6 +46,7 @@ const TrainingProgressModal: React.FC<ModalProps> = ({ closeModal, onSubmit, exe
             {exercises.map((exercise, index) => (
               <TrainingProgressItem
                 key={index}
+                _id={exercise._id}
                 name={exercise.name}
                 quantity={exercise.quantity}
                 onQuantityChange={handleQuantityChange}

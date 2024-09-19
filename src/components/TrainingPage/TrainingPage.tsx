@@ -19,7 +19,7 @@ function TrainingPage() {
 	const { id, courseId } = useParams();
 	const [workout, setWorkout] = useState<any>();
 	const [exercises, setExercises] = useState<any[]>([]);
-	const [exerciseProgress, setExerciseProgress] = useState<number[]>([]); // Добавлено состояние для прогресса упражнений
+	const [exerciseProgress, setExerciseProgress] = useState<{ [key: string]: number }>({}); // Изменено на объект
 	const [isLoading, setIsLoading] = useState(true);
 	const [courseData, setCourseData] = useState<string | null>();
 	const [withoutExercise, setWithoutExercise] = useState(false);
@@ -29,10 +29,11 @@ function TrainingPage() {
 		setIsTrainingProgressModalOpen(true);
 		setIsSaveTrainingProgressModalOpen(false);
 	};
+
 	const closeTrainingProgressModal = () => setIsTrainingProgressModalOpen(false);
 
 	const handleSaveTrainingProgress = (updatedQuantities: { [exerciseName: string]: number }) => {
-		if (user.uid && courseId) {
+		if (user?.uid && courseId) {
 			const exercisesData = Object.entries(updatedQuantities).map(([name, quantity]) => ({
 				name,
 				quantity,
@@ -41,7 +42,12 @@ function TrainingPage() {
 			addRealQuantity(user.uid, courseId, workout._id, exercisesData)
 				.then(() => {
 					getRealQuantity(user.uid, courseId, workout._id).then((data) => {
-						setExerciseProgress(data); // Сохраняем данные о прогрессе упражнений
+						const progressObject = data.reduce((acc, curr, index) => {
+							acc[exercises[index].name] = curr;
+							return acc;
+						}, {} as { [key: string]: number });
+
+						setExerciseProgress(progressObject); // Устанавливаем состояние как объект
 					});
 				})
 				.catch((error) => console.error("Ошибка сохранения прогресса:", error));
@@ -75,11 +81,16 @@ function TrainingPage() {
 	}, [id]);
 
 	useEffect(() => {
-		if (user.uid && courseId && workout) {
+		if (user?.uid && courseId && workout) {
 			getRealQuantity(user.uid, courseId, workout._id)
 				.then((data) => {
 					if (data.length !== 0) {
-						setExerciseProgress(data);
+						const progressObject = data.reduce((acc, curr, index) => {
+							acc[exercises[index].name] = curr;
+							return acc;
+						}, {} as { [key: string]: number });
+
+						setExerciseProgress(progressObject);
 						setWithoutExercise(true);
 					}
 				})
@@ -88,7 +99,7 @@ function TrainingPage() {
 	}, [user, courseId, workout]);
 
 	const handleAddRealQuantityWithoutExercises = () => {
-		if (user.uid && courseId) {
+		if (user?.uid && courseId) {
 			const exercises = { [0]: { quantity: 0 } };
 			addRealQuantityWithoutExercises(user.uid, courseId, workout._id, exercises)
 				.then(() => {
@@ -127,19 +138,17 @@ function TrainingPage() {
 					</div>
 
 					<div className="flex flex-col gap-[20px] sm:gap-[40px] bg-[#FFFFFF] rounded-[28px] p-[30px] sm:p-[40px]">
-						{exercises ? (
+						{exercises.length > 0 ? (
 							<>
 								<h3 className="text-[32px] text-center md:text-start leading-9">Упражнения тренировки</h3>
 								<div className="flex flex-row justify-center md:justify-start flex-wrap gap-x-[60px] gap-y-[20px]">
-									{exercises.map((exercise, index) => {
-										return (
-											<ExerciseProgress
-												key={index}
-												exercise={exercise}
-												progress={exerciseProgress.length > 0 ? exerciseProgress[index] : 0}
-											/>
-										);
-									})}
+									{exercises.map((exercise, index) => (
+										<ExerciseProgress
+											key={index}
+											exercise={exercise}
+											progress={exerciseProgress[exercise.name] || 0} // Обновлено на объект
+										/>
+									))}
 								</div>
 								<button
 									onClick={openTrainingProgressModal}
@@ -153,7 +162,7 @@ function TrainingPage() {
 										onSubmit={handleSaveTrainingProgress}
 										exercises={exercises}
 										workout_Id={workout._id}
-										exerciseProgress={exerciseProgress}
+										exerciseProgress={exerciseProgress} // Обновлено на объект
 									/>
 								)}
 								{isTrainingProgressModalOpen && isSaveTrainingProgressModalOpen && (
