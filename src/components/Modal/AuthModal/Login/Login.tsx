@@ -22,7 +22,12 @@ const Login: React.FC<ModalProps> = ({ closeModal, toggleModal, resetModal }) =>
 				setEmail("");
 				setPassword("");
 				closeModal();
-				loginUser(auth.currentUser);
+				const currentUser = auth.currentUser;
+				if (currentUser) {
+					loginUser(currentUser);
+				} else {
+					setError("Пользователь не найден");
+				}
 			})
 			.catch((error) => {
 				if (error.message === "Firebase: Error (auth/invalid-email).") {
@@ -34,6 +39,7 @@ const Login: React.FC<ModalProps> = ({ closeModal, toggleModal, resetModal }) =>
 				}
 			});
 	}
+	
 
 	return (
 		<div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50" onClick={closeModal}>

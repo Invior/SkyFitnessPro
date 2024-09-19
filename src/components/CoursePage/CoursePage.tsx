@@ -31,10 +31,14 @@ function CoursePage({ openModal }: CoursePageProps) {
 	}, [id]);
 
 	function addCourse() {
-		addCourseToUser(user.uid, course._id).catch((error) => {
-			console.error("Ошибка при добавлении курса:", error);
-		});
-	}
+		if (user?.uid && course?._id) {
+			addCourseToUser(user.uid, course._id).catch((error) => {
+				console.error("Ошибка при добавлении курса:", error);
+			});
+		} else {
+			console.error("User or course is not available");
+		}
+	}	
 
 	useEffect(() => {
 		let bg_color = "";

@@ -24,12 +24,14 @@ function UserCards({ courseId, image, nameRu, onDelete }: UserCardsProps) {
 	const closeTrainingSelectModal = () => setTrainingSelectModalOpen(false);
 
 	useEffect(() => {
-		getCourseById(courseId)
-			.then((data) => {
-				setCourseData(data.workouts);
-			})
-			.catch((error) => console.error(error));
-	}, [courseId]);
+		if (user && user.uid) {
+			getCourseById(courseId)
+				.then((data) => {
+					setCourseData(data.workouts);
+				})
+				.catch((error) => console.error(error));
+		}
+	}, [courseId, user]);
 
 	useEffect(() => {
 		const fetchWorkoutInfo = async () => {
@@ -52,7 +54,7 @@ function UserCards({ courseId, image, nameRu, onDelete }: UserCardsProps) {
 
 	useEffect(() => {
 		const fetchCompleteData = async () => {
-			if (workoutInfo.length > 0) {
+			if (workoutInfo.length > 0 && user && user.uid) {
 				const trainingArray = await Promise.all(
 					workoutInfo.map(async (workout) => {
 						const data = await getRealQuantityWithoutExercises(user.uid, courseId, workout._id);
@@ -64,22 +66,26 @@ function UserCards({ courseId, image, nameRu, onDelete }: UserCardsProps) {
 		};
 		fetchCompleteData();
 		setIsLoading(true);
-	}, [workoutInfo, user.uid, courseId]);
+	}, [workoutInfo, user, courseId]);
 
 	function deleteCourse() {
-		deleteCourseToUser(user.uid, courseId)
-			.then(() => {
-				onDelete(courseId);
-			})
-			.catch((error) => {
-				console.error("Ошибка при удалении курса:", error);
-			});
+		if (user && user.uid) {
+			deleteCourseToUser(user.uid, courseId)
+				.then(() => {
+					onDelete(courseId);
+				})
+				.catch((error) => {
+					console.error("Ошибка при удалении курса:", error);
+				});
+		}
 	}
 
 	function restartCourse() {
-		deleteProgress(user.uid, courseId).then(() => {
-			setCompleteArray([]);
-		});
+		if (user && user.uid) {
+			deleteProgress(user.uid, courseId).then(() => {
+				setCompleteArray([]);
+			});
+		}
 	}
 
 	const visitedRatio = workoutInfo.length > 0 ? (completeArray.length / workoutInfo.length) * 100 : 0;
@@ -120,10 +126,7 @@ function UserCards({ courseId, image, nameRu, onDelete }: UserCardsProps) {
 								</svg>
 								20-50 мин/день
 							</p>
-							<p
-								className="param
-eter bg-[#F7F7F7] p-2.5 rounded-full flex flex-row gap-1.5 items-center"
-							>
+							<p className="parameter bg-[#F7F7F7] p-2.5 rounded-full flex flex-row gap-1.5 items-center">
 								<svg className="w-[18px] h-[18px]">
 									<use xlinkHref="./icon/sprite.svg#icon-complexity" />
 								</svg>
