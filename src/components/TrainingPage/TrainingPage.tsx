@@ -12,16 +12,17 @@ import {
 	getWorkoutsById,
 } from "../../utils/api";
 import { useUser } from "../../hooks/useUser";
+import { Exercise } from "../../types/training";
 
 function TrainingPage() {
 	const [isTrainingProgressModalOpen, setIsTrainingProgressModalOpen] = useState(false);
 	const [isSaveTrainingProgressModalOpen, setIsSaveTrainingProgressModalOpen] = useState(false);
 	const { id, courseId } = useParams();
-	const [workout, setWorkout] = useState<any>();
-	const [exercises, setExercises] = useState<any[]>([]);
-	const [exerciseProgress, setExerciseProgress] = useState<{ [key: string]: number }>({}); // Изменено на объект
+	const [workout, setWorkout] = useState<Exercise | null>(null);
+	const [exercises, setExercises] = useState<Exercise[]>([]);
+	const [exerciseProgress, setExerciseProgress] = useState<{ [key: string]: number }>({});
 	const [isLoading, setIsLoading] = useState(true);
-	const [courseData, setCourseData] = useState<string | null>();
+	const [courseData, setCourseData] = useState<string | null>(null);
 	const [withoutExercise, setWithoutExercise] = useState(false);
 	const { user } = useUser();
 
@@ -33,7 +34,7 @@ function TrainingPage() {
 	const closeTrainingProgressModal = () => setIsTrainingProgressModalOpen(false);
 
 	const handleSaveTrainingProgress = (updatedQuantities: { [exerciseName: string]: number }) => {
-		if (user?.uid && courseId) {
+		if (user?.uid && courseId && workout) {
 			const exercisesData = Object.entries(updatedQuantities).map(([name, quantity]) => ({
 				name,
 				quantity,
@@ -47,7 +48,7 @@ function TrainingPage() {
 							return acc;
 						}, {} as { [key: string]: number });
 
-						setExerciseProgress(progressObject); // Устанавливаем состояние как объект
+						setExerciseProgress(progressObject);
 					});
 				})
 				.catch((error) => console.error("Ошибка сохранения прогресса:", error));
@@ -99,7 +100,7 @@ function TrainingPage() {
 	}, [user, courseId, workout]);
 
 	const handleAddRealQuantityWithoutExercises = () => {
-		if (user?.uid && courseId) {
+		if (user?.uid && courseId && workout) {
 			const exercises = { [0]: { quantity: 0 } };
 			addRealQuantityWithoutExercises(user.uid, courseId, workout._id, exercises)
 				.then(() => {
@@ -126,19 +127,19 @@ function TrainingPage() {
 							{courseData}
 						</h2>
 						<p className="text-[18px] sm:text-[22px] lg:text-[32px] text-left leading-none underline decoration-solid">
-							{workout.name}
+							{workout?.name}
 						</p>
 					</div>
 
 					<div className="flex justify-center bg-[#FFFFFF] rounded-[28px]">
 						<iframe
 							className="w-[343px] h-[189px] sm:w-full sm:h-[400px] md:h-[639px] rounded-[30px]"
-							src={workout.video}
+							src={workout?.video}
 						></iframe>
 					</div>
 
 					<div className="flex flex-col gap-[20px] sm:gap-[40px] bg-[#FFFFFF] rounded-[28px] p-[30px] sm:p-[40px]">
-						{exercises.length > 0 ? (
+						{exercises && workout ? (
 							<>
 								<h3 className="text-[32px] text-center md:text-start leading-9">Упражнения тренировки</h3>
 								<div className="flex flex-row justify-center md:justify-start flex-wrap gap-x-[60px] gap-y-[20px]">
@@ -146,7 +147,7 @@ function TrainingPage() {
 										<ExerciseProgress
 											key={index}
 											exercise={exercise}
-											progress={exerciseProgress[exercise.name] || 0} // Обновлено на объект
+											progress={exerciseProgress[exercise.name] || 0}
 										/>
 									))}
 								</div>
@@ -162,7 +163,7 @@ function TrainingPage() {
 										onSubmit={handleSaveTrainingProgress}
 										exercises={exercises}
 										workout_Id={workout._id}
-										exerciseProgress={exerciseProgress} // Обновлено на объект
+										exerciseProgress={exerciseProgress}
 									/>
 								)}
 								{isTrainingProgressModalOpen && isSaveTrainingProgressModalOpen && (

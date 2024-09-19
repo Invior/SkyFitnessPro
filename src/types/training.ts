@@ -15,5 +15,6 @@ export interface Exercise {
 	_id: string;
 	name: string;
 	quantity: number;
+	video: string;
 }
   

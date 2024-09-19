@@ -50,6 +50,7 @@ const TrainingProgressModal: React.FC<ModalProps> = ({ closeModal, onSubmit, exe
                 name={exercise.name}
                 quantity={exercise.quantity}
                 onQuantityChange={handleQuantityChange}
+                video={exercise.video}
               />
             ))}
           </div>
