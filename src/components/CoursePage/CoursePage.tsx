@@ -14,6 +14,9 @@ function CoursePage({ openModal }: CoursePageProps) {
 	const [isLoading, setIsLoading] = useState(true);
 	const [bgColor, setBgColor] = useState("");
 	const [specialClass, setSpecialClass] = useState("");
+	const [isCourseAdded, setIsCourseAdded] = useState(false);
+	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
 	const { user } = useUser();
 
 	async function getCourseById(id: string) {
@@ -34,7 +37,14 @@ function CoursePage({ openModal }: CoursePageProps) {
 
 	function addCourse() {
 		if (user?.uid && course?._id) {
-			addCourseToUser(user.uid, course._id).catch((error) => {
+			addCourseToUser(
+				user.uid, 
+				course._id)
+				.then(() => {
+					setIsCourseAdded(true);
+					setIsButtonDisabled(true);
+				})
+				.catch((error) => {
 				console.error("Ошибка при добавлении курса:", error);
 			});
 		} else {
@@ -177,10 +187,13 @@ function CoursePage({ openModal }: CoursePageProps) {
 										</div>
 										{user ? (
 											<button
-												onClick={addCourse}
-												className="w-full h-[50px] bg-[#BCEC30] rounded-[40px] hover:bg-[#C6FF00] active:bg-[#000000] active:text-[#FFFFFF] md:text-lg mt-[20px] sm:mt-[28px]"
+												onClick={addCourse}												
+												disabled={isButtonDisabled}
+												className={`w-full h-[50px] rounded-[40px] md:text-lg mt-[20px] sm:mt-[28px] 
+													${isButtonDisabled ? 'bg-[#efffc0]' : 'bg-[#BCEC30] hover:bg-[#C6FF00] active:bg-[#000000] active:text-[#FFFFFF]'}`
+												}
 											>
-												Добавить курс
+												{isCourseAdded ? "Курс добавлен" : "Добавить курс"}
 											</button>
 										) : (
 											<button
