@@ -22,7 +22,6 @@ function UserCards({ courseId, image, nameRu, onDelete }: UserCardsProps) {
 	const { user } = useUser();
 	const FULL_PROGRESS = 100;
 
-
 	const openTrainingSelectModal = () => setTrainingSelectModalOpen(true);
 	const closeTrainingSelectModal = () => setTrainingSelectModalOpen(false);
 

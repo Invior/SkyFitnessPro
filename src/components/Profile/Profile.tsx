@@ -40,7 +40,8 @@ function Profile() {
 
 	const handleSaveName = async () => {
 		setIsEditingName(false);
-		if (user) {  // Проверка на наличие пользователя
+		if (user) {
+			// Проверка на наличие пользователя
 			try {
 				await addUserName(user.uid, name);
 				const newName = await getUserName(user.uid).then((data) => data.name);
@@ -66,7 +67,8 @@ function Profile() {
 
 	useEffect(() => {
 		async function fetchUserInfo() {
-			if (user) {  // Проверка на наличие пользователя
+			if (user) {
+				// Проверка на наличие пользователя
 				try {
 					const response = await getUserCourses(user.uid);
 					if (response) {

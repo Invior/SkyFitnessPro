@@ -2,8 +2,8 @@ export type TrainingType = {
 	id: string;
 	_id: string;
 	images: {
-	  cardImage: string;
-	  courseImage: string;
+		cardImage: string;
+		courseImage: string;
 	};
 	nameRU: string;
 	description: string;
@@ -17,4 +17,3 @@ export interface Exercise {
 	quantity: number;
 	video: string;
 }
-  

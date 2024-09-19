@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { addCourseToUser, getCourse } from "../../utils/api";
+import { addCourseToUser, getCourse, getUserCourses } from "../../utils/api";
 import { useEffect, useState } from "react";
 import { useUser } from "../../hooks/useUser";
 import { TrainingType } from "../../types/training";
@@ -35,22 +35,36 @@ function CoursePage({ openModal }: CoursePageProps) {
 		}
 	}, [id]);
 
+	useEffect(() => {
+		if (user) {
+			getUserCourses(user?.uid).then((data) => {
+				if (data && typeof data === "object") {
+					const coursesArray = Object.values(data) as TrainingType[];
+					const courseExists = coursesArray.some((course) => course.id === id);
+
+					if (courseExists) {
+						setIsCourseAdded(true);
+						setIsButtonDisabled(true);
+					}
+				}
+			});
+		}
+	}, [user]);
+
 	function addCourse() {
 		if (user?.uid && course?._id) {
-			addCourseToUser(
-				user.uid, 
-				course._id)
+			addCourseToUser(user.uid, course._id)
 				.then(() => {
 					setIsCourseAdded(true);
 					setIsButtonDisabled(true);
 				})
 				.catch((error) => {
-				console.error("Ошибка при добавлении курса:", error);
-			});
+					console.error("Ошибка при добавлении курса:", error);
+				});
 		} else {
 			console.error("User or course is not available");
 		}
-	}	
+	}
 
 	useEffect(() => {
 		let bg_color = "";
@@ -80,7 +94,7 @@ function CoursePage({ openModal }: CoursePageProps) {
 		if (id) {
 			const specialIds = ["fi67sm", "q02a6i"];
 			const className = specialIds.includes(id) ? "mb-10" : "md:mr-[70px]";
-			setSpecialClass((prev) => prev + (prev ? ' ' : '') + className);
+			setSpecialClass((prev) => prev + (prev ? " " : "") + className);
 		}
 	}, [id]);
 
@@ -98,11 +112,7 @@ function CoursePage({ openModal }: CoursePageProps) {
 								style={{ backgroundColor: bgColor }}
 							>
 								<div className="overflow-hidden rounded-[20px]">
-									<img
-										src={course.images.cardImage}
-										alt="card-img"
-										className={specialClass}
-									/>
+									<img src={course.images.cardImage} alt="card-img" className={specialClass} />
 								</div>
 							</div>
 
@@ -115,11 +125,7 @@ function CoursePage({ openModal }: CoursePageProps) {
 									{course.nameRU}
 								</p>
 								<div className="overflow-hidden relative rounded-[20px]">
-									<img
-										src={course.images.courseImage}
-										alt="card-img"
-										className={specialClass}
-									/>
+									<img src={course.images.courseImage} alt="card-img" className={specialClass} />
 								</div>
 							</div>
 						</div>
@@ -187,11 +193,10 @@ function CoursePage({ openModal }: CoursePageProps) {
 										</div>
 										{user ? (
 											<button
-												onClick={addCourse}												
+												onClick={addCourse}
 												disabled={isButtonDisabled}
 												className={`w-full h-[50px] rounded-[40px] md:text-lg mt-[20px] sm:mt-[28px] 
-													${isButtonDisabled ? 'bg-[#efffc0]' : 'bg-[#BCEC30] hover:bg-[#C6FF00] active:bg-[#000000] active:text-[#FFFFFF]'}`
-												}
+													${isButtonDisabled ? "bg-[#efffc0]" : "bg-[#BCEC30] hover:bg-[#C6FF00] active:bg-[#000000] active:text-[#FFFFFF]"}`}
 											>
 												{isCourseAdded ? "Курс добавлен" : "Добавить курс"}
 											</button>

@@ -11,23 +11,22 @@ function Card({ courseId, image, nameRu }: CardType) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [loginRequired, setLoginRequired] = useState(false);
 
-
 	function addCourse(event: React.MouseEvent<HTMLButtonElement>) {
 		event.stopPropagation();
 		event.preventDefault();
 
-		if(user) {
+		if (user) {
 			addCourseToUser(user.uid, courseId)
-			.then(() => {
-				// Показываем модальное окно при успешном добавлении курса
-				setIsModalOpen(true);
-			})
-			.catch((error: unknown) => {
-				console.error("Ошибка при добавлении курса:", error);
-			});
+				.then(() => {
+					// Показываем модальное окно при успешном добавлении курса
+					setIsModalOpen(true);
+				})
+				.catch((error: unknown) => {
+					console.error("Ошибка при добавлении курса:", error);
+				});
 		} else {
 			setLoginRequired(true);
-		}		
+		}
 	}
 
 	function closeModal() {

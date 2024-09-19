@@ -14,18 +14,11 @@ const LoginRequired: React.FC<ModalProps> = ({ closeModal }) => {
 				<div className="flex flex-col items-center gap-5 w-[280px] h-[auto]">
 					<h2 className="text-[24px] font-medium text-center">Авторизуйтесь, чтобы добавить курс</h2>
 
-					<svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="57"
-                        height="58"
-                        viewBox="0 0 57 58"
-                        fill="none"
-                    >
-                        <circle cx="28.5" cy="29" r="28.5" fill="#ecba30" />
-                        <rect x="25" y="15" width="7" height="23" fill="white" />
-                        <rect x="25" y="41" width="7" height="7" fill="white" />
-                    </svg>
-
+					<svg xmlns="http://www.w3.org/2000/svg" width="57" height="58" viewBox="0 0 57 58" fill="none">
+						<circle cx="28.5" cy="29" r="28.5" fill="#ecba30" />
+						<rect x="25" y="15" width="7" height="23" fill="white" />
+						<rect x="25" y="41" width="7" height="7" fill="white" />
+					</svg>
 				</div>
 			</div>
 		</div>

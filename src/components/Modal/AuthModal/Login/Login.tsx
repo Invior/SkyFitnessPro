@@ -43,7 +43,6 @@ const Login: React.FC<ModalProps> = ({ closeModal, toggleModal, resetModal }) =>
 				}
 			});
 	}
-	
 
 	return (
 		<div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50" onClick={closeModal}>

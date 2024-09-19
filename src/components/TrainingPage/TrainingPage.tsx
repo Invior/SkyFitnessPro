@@ -43,10 +43,13 @@ function TrainingPage() {
 			addRealQuantity(user.uid, courseId, workout._id, exercisesData)
 				.then(() => {
 					getRealQuantity(user.uid, courseId, workout._id).then((data) => {
-						const progressObject = data.reduce((acc, curr, index) => {
-							acc[exercises[index].name] = curr;
-							return acc;
-						}, {} as { [key: string]: number });
+						const progressObject = data.reduce(
+							(acc, curr, index) => {
+								acc[exercises[index].name] = curr;
+								return acc;
+							},
+							{} as { [key: string]: number },
+						);
 
 						setExerciseProgress(progressObject);
 					});
@@ -86,10 +89,13 @@ function TrainingPage() {
 			getRealQuantity(user.uid, courseId, workout._id)
 				.then((data) => {
 					if (data.length !== 0) {
-						const progressObject = data.reduce((acc, curr, index) => {
-							acc[exercises[index].name] = curr;
-							return acc;
-						}, {} as { [key: string]: number });
+						const progressObject = data.reduce(
+							(acc, curr, index) => {
+								acc[exercises[index].name] = curr;
+								return acc;
+							},
+							{} as { [key: string]: number },
+						);
 
 						setExerciseProgress(progressObject);
 						setWithoutExercise(true);
@@ -144,11 +150,7 @@ function TrainingPage() {
 								<h3 className="text-[32px] text-center md:text-start leading-9">Упражнения тренировки</h3>
 								<div className="flex flex-row justify-center md:justify-start flex-wrap gap-x-[60px] gap-y-[20px]">
 									{exercises.map((exercise, index) => (
-										<ExerciseProgress
-											key={index}
-											exercise={exercise}
-											progress={exerciseProgress[exercise.name] || 0}
-										/>
+										<ExerciseProgress key={index} exercise={exercise} progress={exerciseProgress[exercise.name] || 0} />
 									))}
 								</div>
 								<button
