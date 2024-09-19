@@ -29,11 +29,15 @@ const Login: React.FC<ModalProps> = ({ closeModal, toggleModal, resetModal }) =>
 					setError("Пользователь не найден");
 				}
 			})
-			.catch((error) => {
-				if (error.message === "Firebase: Error (auth/invalid-email).") {
-					setError("email введен некорректно");
-				} else if (error.message === "Firebase: Error (auth/invalid-credential).") {
-					setError("Неверный логин или пароль");
+			.catch((error: unknown) => {
+				if (error instanceof Error) {
+					if (error.message === "Firebase: Error (auth/invalid-email).") {
+						setError("email введен некорректно");
+					} else if (error.message === "Firebase: Error (auth/invalid-credential).") {
+						setError("Неверный логин или пароль");
+					} else {
+						setError("Ошибка входа, попробуйте позже");
+					}
 				} else {
 					setError("Ошибка входа, попробуйте позже");
 				}

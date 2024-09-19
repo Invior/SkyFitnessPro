@@ -19,7 +19,7 @@ const TrainingSelectModal: React.FC<ModalProps> = ({ closeModal, courseId }) => 
 			.then((data) => {
 				setCourseData(data.workouts);
 			})
-			.catch((error) => console.error(error));
+			.catch((error: unknown) => console.error(error));
 	}, [courseId]);
 
 	useEffect(() => {
@@ -34,7 +34,7 @@ const TrainingSelectModal: React.FC<ModalProps> = ({ closeModal, courseId }) => 
 					);
 					setWorkoutInfo(workoutInfoArray);
 					setIsLoaded(true);
-				} catch (error) {
+				} catch (error: unknown) {
 					console.error("Ошибка при получении информации о курсе:", error);
 				}
 			}

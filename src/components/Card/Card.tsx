@@ -22,7 +22,7 @@ function Card({ courseId, image, nameRu }: CardType) {
 				// Показываем модальное окно при успешном добавлении курса
 				setIsModalOpen(true);
 			})
-			.catch((error) => {
+			.catch((error: unknown) => {
 				console.error("Ошибка при добавлении курса:", error);
 			});
 		} else {

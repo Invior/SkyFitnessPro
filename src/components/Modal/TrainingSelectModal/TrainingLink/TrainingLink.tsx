@@ -21,7 +21,7 @@ function TrainingLink({ name, trainingId, courseId }: TrainingLinkProps) {
                         setCompletedTraining(true);
                     }
                 })
-                .catch((error) => console.error(error));
+                .catch((error: unknown) => console.error(error));
         }
     }, [user, courseId, trainingId]); // Добавлены зависимости
 

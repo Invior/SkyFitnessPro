@@ -47,7 +47,7 @@ function Profile() {
 				setName(newName);
 				// Обновляем имя в контексте
 				loginUser({ ...user, displayName: newName });
-			} catch (error) {
+			} catch (error: unknown) {
 				console.error("Ошибка при сохранении имени:", error);
 			}
 		}
@@ -75,7 +75,7 @@ function Profile() {
 						setName(savedName || "Указать имя");
 						setIsLoading(false); // Данные загружены
 					}
-				} catch (error) {
+				} catch (error: unknown) {
 					console.error("Ошибка при получении данных пользователя:", error);
 					setIsLoading(false); // Если ошибка, загрузка все равно заканчивается
 				} finally {
@@ -102,7 +102,7 @@ function Profile() {
 						}),
 					);
 					setCourseInfoArray(courseInfoArray);
-				} catch (error) {
+				} catch (error: unknown) {
 					console.error("Ошибка при получении информации о курсе:", error);
 				}
 			}

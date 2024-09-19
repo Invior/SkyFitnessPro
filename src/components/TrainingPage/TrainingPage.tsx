@@ -51,7 +51,7 @@ function TrainingPage() {
 						setExerciseProgress(progressObject);
 					});
 				})
-				.catch((error) => console.error("Ошибка сохранения прогресса:", error));
+				.catch((error: unknown) => console.error("Ошибка сохранения прогресса:", error));
 		} else {
 			console.error("ID тренировки или курса не найдены");
 		}
@@ -65,7 +65,7 @@ function TrainingPage() {
 				.then((data) => {
 					setCourseData(data.nameRU);
 				})
-				.catch((error) => console.error(error));
+				.catch((error: unknown) => console.error(error));
 		}
 	}, [courseId]);
 
@@ -76,7 +76,7 @@ function TrainingPage() {
 					setWorkout(data);
 					setExercises(data.exercises);
 				})
-				.catch((error) => console.error(error))
+				.catch((error: unknown) => console.error(error))
 				.finally(() => setIsLoading(false));
 		}
 	}, [id]);
@@ -95,7 +95,7 @@ function TrainingPage() {
 						setWithoutExercise(true);
 					}
 				})
-				.catch((error) => console.error(error));
+				.catch((error: unknown) => console.error(error));
 		}
 	}, [user, courseId, workout]);
 
@@ -110,9 +110,9 @@ function TrainingPage() {
 								setWithoutExercise(true);
 							}
 						})
-						.catch((error) => console.error(error));
+						.catch((error: unknown) => console.error(error));
 				})
-				.catch((error) => console.error("Ошибка сохранения прогресса:", error));
+				.catch((error: unknown) => console.error("Ошибка сохранения прогресса:", error));
 		}
 	};
 

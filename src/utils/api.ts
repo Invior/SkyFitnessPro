@@ -76,7 +76,7 @@ export async function deleteCourseToUser(uuid: string, courseId: string) {
 				console.error("Ошибка при удалении курса");
 			}
 		})
-		.catch((error) => {
+		.catch((error: unknown) => {
 			console.error("Ошибка:", error);
 		});
 }

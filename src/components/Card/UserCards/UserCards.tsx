@@ -30,7 +30,7 @@ function UserCards({ courseId, image, nameRu, onDelete }: UserCardsProps) {
 				.then((data) => {
 					setCourseData(data.workouts);
 				})
-				.catch((error) => console.error(error));
+				.catch((error: unknown) => console.error(error));
 		}
 	}, [courseId, user]);
 
@@ -45,7 +45,7 @@ function UserCards({ courseId, image, nameRu, onDelete }: UserCardsProps) {
 						}),
 					);
 					setWorkoutInfo(workoutInfoArray);
-				} catch (error) {
+				} catch (error: unknown) {
 					console.error("Ошибка при получении информации о курсе:", error);
 				}
 			}
@@ -75,7 +75,7 @@ function UserCards({ courseId, image, nameRu, onDelete }: UserCardsProps) {
 				.then(() => {
 					onDelete(courseId);
 				})
-				.catch((error) => {
+				.catch((error: unknown) => {
 					console.error("Ошибка при удалении курса:", error);
 				});
 		}

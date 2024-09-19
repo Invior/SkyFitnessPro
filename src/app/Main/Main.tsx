@@ -22,7 +22,7 @@ function Main() {
         const coursesData: TrainingType[] = Object.keys(data).map((key) => data[key]);
         setCourses(coursesData);
       })
-      .catch((error: Error) => {
+      .catch((error: unknown) => {
         console.warn(error);
       })
       .finally(() => {

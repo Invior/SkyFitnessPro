@@ -26,14 +26,14 @@ function CoursePage({ openModal }: CoursePageProps) {
 				.then((data) => {
 					setCourse(data);
 				})
-				.catch((error) => console.error(error))
+				.catch((error: unknown) => console.error(error))
 				.finally(() => setIsLoading(false));
 		}
 	}, [id]);
 
 	function addCourse() {
 		if (user?.uid && course?._id) {
-			addCourseToUser(user.uid, course._id).catch((error) => {
+			addCourseToUser(user.uid, course._id).catch((error: unknown) => {
 				console.error("Ошибка при добавлении курса:", error);
 			});
 		} else {
