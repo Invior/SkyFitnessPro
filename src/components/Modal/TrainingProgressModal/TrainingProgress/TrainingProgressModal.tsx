@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "./TrainingProgressModal.css";
 import TrainingProgressItem from "../TrainingProgressItem/TrainingProgressItem";
+import { Exercise } from "../../../../types/training";
 
 interface ModalProps {
 	closeModal: () => void;
 	onSubmit: (updatedQuantities: { [key: string]: number }) => void;
-	exercises: any[];
+	exercises: Exercise[];
 	workout_Id: string;
-	exerciseProgress: any;
-}
+	exerciseProgress: { [key: string]: number };
+  }
+  
 
 const TrainingProgressModal: React.FC<ModalProps> = ({ closeModal, onSubmit, exercises, exerciseProgress }) => {
 	// Инициализируем состояния со значениями по умолчанию
@@ -17,8 +19,8 @@ const TrainingProgressModal: React.FC<ModalProps> = ({ closeModal, onSubmit, exe
 	useEffect(() => {
 		// Устанавливаем начальные значения для всех упражнений при загрузке модального окна
 		const initialQuantities: { [key: string]: number } = {};
-		exercises.forEach((exercise, index) => {
-			initialQuantities[exercise.name] = exerciseProgress[index] || 0;
+		exercises.forEach(([name, _], index) => {
+			initialQuantities[name] = exerciseProgress[index] || 0;
 		});
 		setUpdatedQuantities(initialQuantities);
 	}, [exercises]);

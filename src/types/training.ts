@@ -1,5 +1,12 @@
 export type TrainingType = {
-	name: string;
-	trainingId: string;
-	courseId: string;
+	_id: string;
+	images: {
+	  cardImage: string;
+	};
+	nameRU: string;
+	description: string;
+	directions: string[];
+	fitting: string[];
 };
+
+export type Exercise = [string, number];

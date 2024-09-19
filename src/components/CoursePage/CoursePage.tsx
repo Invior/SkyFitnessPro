@@ -108,7 +108,7 @@ function CoursePage({ openModal }: CoursePageProps) {
 							</h2>
 
 							<div className="flex flex-col xl:flex-row mt-[20px] sm:mt-[40px] gap-[17px] justify-between">
-								{course.fitting.map((fitting: any, index: number) => (
+								{course.fitting.map((fitting: string, index: number) => (
 									<div
 										key={index}
 										className="w-full xl:w-[368px] h-[141px] md:h-[110px] xl:h-[160px] pl-[15px] pr-[15px] flex bg-gradient-to-r from-[#151720] to-[#1E212E] items-center rounded-[20px]"
@@ -126,7 +126,7 @@ function CoursePage({ openModal }: CoursePageProps) {
 							</h2>
 
 							<div className="bg-[#BCEC30] lg:grid lg:grid-cols-3 grid-rows-2 gap-4 p-[20px] md:p-[50px] w-full h-auto lg:h-[146px] lg:p-[30px] rounded-[20px] items-center">
-								{course.directions.map((directions: any, index: number) => (
+								{course.directions.map((directions: string, index: number) => (
 									<p key={index} className="text-[18px] sm:text-[24px] md:text-[28px] text-left">
 										✦ {directions}
 									</p>

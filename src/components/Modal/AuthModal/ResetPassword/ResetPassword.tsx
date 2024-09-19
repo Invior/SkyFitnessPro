@@ -17,8 +17,10 @@ const ResetPassword: React.FC<ModalProps> = ({ closeModal }) => {
 				setIsEmailSent(true);
 				setMessage(`Ссылка для восстановления пароля отправлена на ${email}`);
 			});
-		} catch (error: any) {
-			setMessage("Произошла ошибка: " + error.message);
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				setMessage("Произошла ошибка: " + error.message);
+			}
 		}
 	};
 

@@ -25,8 +25,10 @@ const PasswordChange: React.FC<ModalProps> = ({ closeModal, onSubmit }) => {
 				await updatePassword(user, newPassword).then(() => {
 					onSubmit();
 				});
-			} catch (error: any) {
-				setMessage("Ошибка при изменении пароля: " + error.message);
+			} catch (error: unknown) {
+				if (error instanceof Error) {
+					setMessage("Ошибка при изменении пароля: " + error.message);
+				}
 			}
 		} else {
 			setMessage("Пользователь не авторизован.");
