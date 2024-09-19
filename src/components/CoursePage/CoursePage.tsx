@@ -13,6 +13,7 @@ function CoursePage({ openModal }: CoursePageProps) {
 	const [course, setCourse] = useState<TrainingType>();
 	const [isLoading, setIsLoading] = useState(true);
 	const [bgColor, setBgColor] = useState("");
+	const [specialClass, setSpecialClass] = useState("");
 	const { user } = useUser();
 
 	async function getCourseById(id: string) {
@@ -60,13 +61,18 @@ function CoursePage({ openModal }: CoursePageProps) {
 				bg_color = "#F7A012";
 				break;
 			default:
-				bg_color = "#FFC700"; // Цвет по умолчанию
+				bg_color = "#FFC700";
 		}
 		setBgColor(bg_color);
 	}, [id]);
 
-	const specialIds = ["fi67sm", "q02a6i"];
-	const className = specialIds.includes(id) ? "mb-10" : "md:mr-[70px]";
+	useEffect(() => {
+		if (id) {
+			const specialIds = ["fi67sm", "q02a6i"];
+			const className = specialIds.includes(id) ? "mb-10" : "md:mr-[70px]";
+			setSpecialClass((prev) => prev + (prev ? ' ' : '') + className);
+		}
+	}, [id]);
 
 	return (
 		<>
@@ -85,7 +91,7 @@ function CoursePage({ openModal }: CoursePageProps) {
 									<img
 										src={course.images.cardImage}
 										alt="card-img"
-										className={ id ? className : ""}
+										className={specialClass}
 									/>
 								</div>
 							</div>
