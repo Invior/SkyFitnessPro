@@ -5,6 +5,7 @@ import PasswordChangeSuccess from "../Modal/PasswordChange/PasswordChangeSuccess
 import { useUser } from "../../hooks/useUser";
 import { addUserName, getCourseById, getUserCourses, getUserName } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
+import { TrainingType } from "../../types/training";
 
 function Profile() {
 	const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
@@ -39,14 +40,16 @@ function Profile() {
 
 	const handleSaveName = async () => {
 		setIsEditingName(false);
-		try {
-			await addUserName(user.uid, name);
-			const newName = await getUserName(user.uid).then((data) => data.name);
-			setName(newName);
-			// Обновляем имя в контексте
-			loginUser({ ...user, displayName: newName });
-		} catch (error) {
-			console.error("Ошибка при сохранении имени:", error);
+		if (user) {  // Проверка на наличие пользователя
+			try {
+				await addUserName(user.uid, name);
+				const newName = await getUserName(user.uid).then((data) => data.name);
+				setName(newName);
+				// Обновляем имя в контексте
+				loginUser({ ...user, displayName: newName });
+			} catch (error) {
+				console.error("Ошибка при сохранении имени:", error);
+			}
 		}
 	};
 
@@ -63,24 +66,26 @@ function Profile() {
 
 	useEffect(() => {
 		async function fetchUserInfo() {
-			try {
-				const response = await getUserCourses(user.uid);
-				if (response) {
-					setUserCourses(Object.values(response));
-					const savedName = await getUserName(user.uid).then((data) => data.name);
-					setName(savedName || "Указать имя");
-					setIsLoading(false); // Данные загружены
+			if (user) {  // Проверка на наличие пользователя
+				try {
+					const response = await getUserCourses(user.uid);
+					if (response) {
+						setUserCourses(Object.values(response));
+						const savedName = await getUserName(user.uid).then((data) => data.name);
+						setName(savedName || "Указать имя");
+						setIsLoading(false); // Данные загружены
+					}
+				} catch (error) {
+					console.error("Ошибка при получении данных пользователя:", error);
+					setIsLoading(false); // Если ошибка, загрузка все равно заканчивается
+				} finally {
+					setIsLoading(false);
 				}
-			} catch (error) {
-				console.error("Ошибка при получении данных пользователя:", error);
-				setIsLoading(false); // Если ошибка, загрузка все равно заканчивается
-			} finally {
-				setIsLoading(false);
 			}
 		}
 
 		fetchUserInfo();
-	}, [user.uid]);
+	}, [user]);
 
 	const handleDeleteCourse = (courseId: string) => {
 		setCourseInfoArray(courseInfoArray.filter((course) => course._id !== courseId));
@@ -149,7 +154,7 @@ function Profile() {
 						</div>
 
 						<div className="flex flex-col items-start mb-[20px] sm:mb-[30px]">
-							<p>Логин: {user.email}</p>
+							<p>Логин: {user?.email}</p> {/* Безопасное обращение к полю email */}
 							<p>Пароль: **********</p>
 						</div>
 
@@ -180,7 +185,7 @@ function Profile() {
 				</h2>
 				<div className="flex flex-row flex-wrap gap-10 justify-start">
 					{courseInfoArray.length > 0 ? (
-						courseInfoArray.map((courseItem: any) => (
+						courseInfoArray.map((courseItem: TrainingType) => (
 							<UserCards
 								key={courseItem._id}
 								courseId={courseItem._id}
@@ -199,17 +204,24 @@ function Profile() {
 				<div className="lg:hidden flex flex-row justify-end mt-[24px]">
 					<button
 						onClick={scrollToCourses}
-						className="w-[127px] h-[52px] bg-[#BCEC30] rounded-[46px] hover:bg-[#C6FF00] active:bg-[#000000] active:text-[#FFFFFF] text-lg leading-3"
+						className="bg-[#FFEB00] rounded-full w-[76px] h-[76px] flex items-center justify-center shadow-[0px_0px_44px_#4B4B4B66]"
 					>
-						Наверх
+						<svg className="w-[37px] h-[30px]">
+							<use xlinkHref="./icon/sprite.svg#icon-arrow-down" />
+						</svg>
 					</button>
 				</div>
 			</div>
 
-			{isPasswordModalOpen && !isPasswordChanged && (
-				<PasswordChange closeModal={closePasswordModal} onSubmit={handlePasswordChange} />
+			{isPasswordModalOpen && (
+				<>
+					{isPasswordChanged ? (
+						<PasswordChangeSuccess closeModal={closePasswordModal} />
+					) : (
+						<PasswordChange closeModal={closePasswordModal} onSubmit={handlePasswordChange} />
+					)}
+				</>
 			)}
-			{isPasswordModalOpen && isPasswordChanged && <PasswordChangeSuccess closeModal={closePasswordModal} />}
 		</div>
 	);
 }

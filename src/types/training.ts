@@ -9,4 +9,8 @@ export type TrainingType = {
 	fitting: string[];
 };
 
-export type Exercise = [string, number];
+export interface Exercise {
+	name: string;
+	quantity: number;
+  }
+  
