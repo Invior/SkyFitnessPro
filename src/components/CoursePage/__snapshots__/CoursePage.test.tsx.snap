@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CoursePage matches snapshot when loading 1`] = `
+exports[`CoursePage snapshot 1`] = `
 <div>
   <div
     class="mt-[40px] sm:mt-[60px]"

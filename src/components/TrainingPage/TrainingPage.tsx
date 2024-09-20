@@ -148,7 +148,7 @@ function TrainingPage() {
 						{exercises && workout ? (
 							<>
 								<h3 className="text-[32px] text-center md:text-start leading-9">Упражнения тренировки</h3>
-								<div className="flex flex-row justify-center md:justify-start flex-wrap gap-x-[60px] gap-y-[20px]">
+								<div className="flex flex-row justify-center md:justify-start flex-wrap gap-x-[60px] gap-y-[30px]">
 									{exercises.map((exercise, index) => (
 										<ExerciseProgress key={index} exercise={exercise} progress={exerciseProgress[exercise.name] || 0} />
 									))}

@@ -10,12 +10,12 @@ function ExerciseProgress({ exercise, progress }: ExerciseProgressProps) {
 	const progressPercentage = (progress / requiredProgress) * 100;
 
 	return (
-		<div className="flex flex-col gap-[10px] w-[320px]">
-			<div className="text-lg text-start">{exercise.name}</div>
+		<div className="flex flex-col w-[320px] xl:h-[73px] h-[55px] justify-between">
+			<div className="xl:text-lg lg:text-md text-sm text-start">{exercise.name}</div>
 			<div className="relative w-full h-[6px] bg-gray-300 rounded-full">
 				<div
 					data-testid="progress-bar"
-					className="absolute top-0 left-0 h-[6px] bg-[#00C1FF]"
+					className="absolute top-0 left-0 h-[6px] bg-[#00C1FF] rounded-full"
 					style={{ width: `${progressPercentage < 100 ? progressPercentage : 100}%` }}
 				></div>
 			</div>
